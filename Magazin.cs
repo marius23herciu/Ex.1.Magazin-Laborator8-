@@ -140,40 +140,16 @@ namespace Ex._1.Magazin_Laborator8_
         {
             return casaDeMarcat.GetValoare();
         }
+        public int GetNumarBecuri()
+        {
+            return this.listaBecuri.Count;
+        }
         /// <summary>
         /// Optiuni vanzare becuri.
         /// </summary>
         /// <param name="magazin"></param>
-        public void VanzareBecuri(Magazin magazin)
+        public void VanzareBecuri(Magazin magazin, int becuri)
         {
-            if (this.listaBecuri.Count <= 0)
-            {
-                Console.WriteLine("Nu sunt becuri in stoc");
-                return;
-            }
-
-            Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
-                $"Cate becuri doriti sa vindeti?");
-            int becuri = int.Parse(Console.ReadLine());
-            char exit = ' ';
-            while (this.listaBecuri.Count < becuri)
-            {
-                Console.WriteLine("Ati introdus mai multe becuri decat sunt in stoc.\n" +
-                    "Doriti sa introdueti din nou numarul de becuri? y/n");
-                exit = Console.ReadKey().KeyChar;
-                if (exit == 'n')
-                {
-                    break;
-                }
-                Console.WriteLine();
-                Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
-                $"Cate becuri doriti sa cumparati?");
-                becuri = int.Parse(Console.ReadLine());
-            }
-            if (exit == 'n')
-            {
-                return;
-            }
             for (int i = 0; i < becuri; i++)
             {
                 this.casaDeMarcat.Incasare(this.listaBecuri[0].GetPret());
@@ -186,9 +162,8 @@ namespace Ex._1.Magazin_Laborator8_
         /// Optiuni vanzare TV.
         /// </summary>
         /// <param name="magazin"></param>
-        public void VanzareTV(Magazin magazin)
+        public void VanzareTV(Magazin magazin, TV tv)
         {
-            TV tv = magazin.GetTipTV();
             bool tvInStoc = magazin.VerificareStocTV(tv);
             if (tvInStoc == true)
             {
@@ -206,9 +181,8 @@ namespace Ex._1.Magazin_Laborator8_
         /// Optiuni vanzare telefoane.
         /// </summary>
         /// <param name="magazin"></param>
-        public void VanzareTelefon(Magazin magazin)
+        public void VanzareTelefon(Magazin magazin, Telefon telefon)
         {
-            Telefon telefon = magazin.GetTipTelefon();
             bool telefonInStoc = magazin.VerificareStocTelefon(telefon);
             if (telefonInStoc == true)
             {
@@ -222,83 +196,6 @@ namespace Ex._1.Magazin_Laborator8_
             {
                 Console.WriteLine("Telefonul cautat nu este in stoc");
             }
-        }
-
-        /// <summary>
-        /// Ofera optiunea de a selecta tipul de telefon si 
-        /// returneaza tipul de telefon selectat.
-        /// </summary>
-        /// <returns></returns>
-        public Telefon GetTipTelefon()
-        {
-            Console.WriteLine("Alegeti din urmatoarele modele\n" +
-                "Samsung S10(1)\n" +
-                "iPhone 10(2)\n" +
-                "Oneplus N10(3)\n" +
-                "Nokia 3310(4)\n" +
-               "Tastati numarul corespunzator produsului dorit:");
-            int raspuns = int.Parse(Console.ReadLine());
-            while (raspuns < 1 || raspuns > 4)
-            {
-                Console.WriteLine("Input gresit!");
-                raspuns = int.Parse(Console.ReadLine());
-            }
-
-            if (raspuns == 1)
-            {
-                return new Telefon(ProducatorTelefon.Samsung, ModelTelefon.S10);
-            }
-            if (raspuns == 2)
-            {
-                return new Telefon(ProducatorTelefon.iPhone, ModelTelefon.x10);
-            }
-            if (raspuns == 3)
-            {
-                return new Telefon(ProducatorTelefon.OnePlus, ModelTelefon.N10);
-            }
-            if (raspuns == 4)
-            {
-                return new Telefon(ProducatorTelefon.Nokia, ModelTelefon.n3310);
-            }
-            return new Telefon(ProducatorTelefon.empty, ModelTelefon.empty);
-        }
-        /// <summary>
-        ///  Ofera optiunea de a selecta tipul de televizor si 
-        /// returneaza tipul de televizor selectat.
-        /// </summary>
-        /// <returns></returns>
-        public TV GetTipTV()
-        {
-            Console.WriteLine("Alegeti din urmatoarele modele\n" +
-                "Samsung SA55(1)\n" +
-                "LG 30LG(2)\n" +
-                "Nei N45(3)\n" +
-                "Philips PH35\n" +
-               "Tastati numarul corespunzator produsului dorit:");
-            int raspuns = int.Parse(Console.ReadLine());
-            while (raspuns < 1 || raspuns > 4)
-            {
-                Console.WriteLine("Input gresit!");
-                raspuns = int.Parse(Console.ReadLine());
-            }
-
-            if (raspuns == 1)
-            {
-                return new TV(ProducatorTV.Samsung, ModelTV.SA55);
-            }
-            if (raspuns == 2)
-            {
-                return new TV(ProducatorTV.LG, ModelTV.LG30);
-            }
-            if (raspuns == 3)
-            {
-                return new TV(ProducatorTV.Nei, ModelTV.N45);
-            }
-            if (raspuns == 4)
-            {
-                return new TV(ProducatorTV.Philips, ModelTV.PH35);
-            }
-            return new TV(ProducatorTV.empty, ModelTV.empty);
         }
         /// <summary>
         /// Verifica daca tipul de telefon introdus se afla in stocul magazinului.
