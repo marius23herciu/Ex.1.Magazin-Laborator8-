@@ -73,6 +73,7 @@ namespace Ex._1.Magazin_Laborator8_
 
 
 
+
             magazin.AdaugareTelefon(telefonOneplusN10);
             magazin.AdaugareTelefon(telefonNokia3310);
             magazin.AdaugareTelefon(telefonNokia3310);
@@ -89,9 +90,30 @@ namespace Ex._1.Magazin_Laborator8_
             magazin.AdaugareTV(tvLG30);
             magazin.AdaugareTV(tvSamsungSA55);
 
+
+
             magazin.ClientIntra();
-            magazin.SchimbareParolaToateTelefoanele("0000", "9999");
-            magazin.VanzareProduse(magazin);
+            magazin.SchimbareParolaMagazin("0000", "9999");
+            Console.WriteLine("Vindeti bec(1), TV(2) sau telefon(3)?\n" +
+                    "Tastati numarul corespunzator produsului dorit:");
+            int raspuns = int.Parse(Console.ReadLine());
+            while (raspuns < 1 || raspuns > 3)
+            {
+                Console.WriteLine("Input gresit!");
+                raspuns = int.Parse(Console.ReadLine());
+            }
+            switch (raspuns)
+            {
+                case 1:
+                    magazin.VanzareBecuri(magazin);
+                    break;
+                case 2:
+                    magazin.VanzareTV(magazin);
+                    break;
+                default:
+                    magazin.VanzareTelefon(magazin);
+                    break;
+            }
             magazin.ClientIese();
 
         }

@@ -40,10 +40,15 @@ namespace Ex._1.Magazin_Laborator8_
         /// </summary>
         /// <param name="parolaVeche"></param>
         /// <param name="parolaNoua"></param>
-        public void SchimbareParolaToateTelefoanele(string parolaVeche, string parolaNoua)
+        public void SchimbareParolaMagazin(string parolaVeche, string parolaNoua)
         {
+            if (this.parolaAutomata==parolaVeche)
+            {
+                this.parolaAutomata = parolaNoua;
+            }
             foreach (Telefon telefon in this.listaTelefoane)
             {
+                parolaVeche = telefon.GetParola();
                 telefon.SchimbaParola(parolaVeche, parolaNoua);
             }
         }
@@ -75,9 +80,6 @@ namespace Ex._1.Magazin_Laborator8_
                 telefon.Deblocheaza(this.parolaAutomata);
             }
         }
-
-
-
         /// <summary>
         /// Stinge becurile din magazin, opreste sistem audio, opreste tv urile 
         /// si blocheaza ecranele telefoanelor.
@@ -139,91 +141,89 @@ namespace Ex._1.Magazin_Laborator8_
             return casaDeMarcat.GetValoare();
         }
         /// <summary>
-        /// Afiseaza optiunile de vanzare ale magazinului.
+        /// Optiuni vanzare becuri.
         /// </summary>
         /// <param name="magazin"></param>
-        public void VanzareProduse(Magazin magazin)
+        public void VanzareBecuri(Magazin magazin)
         {
-            Console.WriteLine("Vindeti bec(1), TV(2) sau telefon(3)?\n" +
-                "Tastati numarul corespunzator produsului dorit:");
-            int raspuns = int.Parse(Console.ReadLine());
-            while (raspuns < 1 || raspuns > 3)
+            if (this.listaBecuri.Count <= 0)
             {
-                Console.WriteLine("Input gresit!");
-                raspuns = int.Parse(Console.ReadLine());
+                Console.WriteLine("Nu sunt becuri in stoc");
+                return;
             }
-            switch (raspuns)
-            {
-                case 1:
-                    if (this.listaBecuri.Count <= 0)
-                    {
-                        Console.WriteLine("Nu sunt becuri in stoc");
-                        break;
-                    }
 
-                    Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
-                        $"Cate becuri doriti sa vindeti?");
-                    int becuri = int.Parse(Console.ReadLine());
-                    char exit = ' ';
-                    while (this.listaBecuri.Count < becuri)
-                    {
-                        Console.WriteLine("Ati introdus mai multe becuri decat sunt in stoc.\n" +
-                            "Doriti sa introdueti din nou numarul de becuri? y/n");
-                        exit = Console.ReadKey().KeyChar;
-                        if (exit == 'n')
-                        {
-                            break;
-                        }
-                        Console.WriteLine();
-                        Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
-                        $"Cate becuri doriti sa cumparati?");
-                        becuri = int.Parse(Console.ReadLine());
-                    }
-                    if (exit == 'n')
-                    {
-                        break;
-                    }
-                    for (int i = 0; i < becuri; i++)
-                    {
-                        this.casaDeMarcat.Incasare(this.listaBecuri[0].GetPret());
-                        this.listaBecuri.RemoveAt(0);
-                    }
-                    Console.WriteLine($"Ati vandut {becuri} becuri.");
-                    Console.WriteLine($"Mai sunt {this.listaBecuri.Count} becuri in stoc.");
+            Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
+                $"Cate becuri doriti sa vindeti?");
+            int becuri = int.Parse(Console.ReadLine());
+            char exit = ' ';
+            while (this.listaBecuri.Count < becuri)
+            {
+                Console.WriteLine("Ati introdus mai multe becuri decat sunt in stoc.\n" +
+                    "Doriti sa introdueti din nou numarul de becuri? y/n");
+                exit = Console.ReadKey().KeyChar;
+                if (exit == 'n')
+                {
                     break;
-                case 2:
-                    TV tv = magazin.GetTipTV();
-                    bool tvInStoc = magazin.VerificareStocTV(tv);
-                    if (tvInStoc == true)
-                    {
-                        this.casaDeMarcat.Incasare(tv.GetPret());
-                        int index = magazin.GetIndexTV(tv);
-                        this.listaTV.RemoveAt(index);
-                        Console.WriteLine($"Ati vandut un tv {tv.GetProducator()} {tv.GetModel()}.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Televizorul cautat nu este in stoc");
-                    }
-                    break;
-                default:
-                    Telefon telefon = magazin.GetTipTelefon();
-                    bool telefonInStoc = magazin.VerificareStocTelefon(telefon);
-                    if (telefonInStoc == true)
-                    {
-                        this.casaDeMarcat.Incasare(telefon.GetPret());
-                        telefon.SchimbaParola(telefon.GetParola(), string.Empty);
-                        int index = magazin.GetIndexTelefon(telefon);
-                        this.listaTelefoane.RemoveAt(index);
-                        Console.WriteLine($"Ati vandut un telefon {telefon.GetProducator()} {telefon.GetModel()}.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Telefonul cautat nu este in stoc");
-                    }
-                    break;
+                }
+                Console.WriteLine();
+                Console.WriteLine($"Sunt {this.listaBecuri.Count} becuri in stoc.\n" +
+                $"Cate becuri doriti sa cumparati?");
+                becuri = int.Parse(Console.ReadLine());
+            }
+            if (exit == 'n')
+            {
+                return;
+            }
+            for (int i = 0; i < becuri; i++)
+            {
+                this.casaDeMarcat.Incasare(this.listaBecuri[0].GetPret());
+                this.listaBecuri.RemoveAt(0);
+            }
+            Console.WriteLine($"Ati vandut {becuri} becuri.");
+            Console.WriteLine($"Mai sunt {this.listaBecuri.Count} becuri in stoc.");
+        }
+        /// <summary>
+        /// Optiuni vanzare TV.
+        /// </summary>
+        /// <param name="magazin"></param>
+        public void VanzareTV(Magazin magazin)
+        {
+            TV tv = magazin.GetTipTV();
+            bool tvInStoc = magazin.VerificareStocTV(tv);
+            if (tvInStoc == true)
+            {
+                this.casaDeMarcat.Incasare(tv.GetPret());
+                int index = magazin.GetIndexTV(tv);
+                this.listaTV.RemoveAt(index);
+                Console.WriteLine($"Ati vandut un tv {tv.GetProducator()} {tv.GetModel()}.");
+            }
+            else
+            {
+                Console.WriteLine("Televizorul cautat nu este in stoc");
             }
         }
+        /// <summary>
+        /// Optiuni vanzare telefoane.
+        /// </summary>
+        /// <param name="magazin"></param>
+        public void VanzareTelefon(Magazin magazin)
+        {
+            Telefon telefon = magazin.GetTipTelefon();
+            bool telefonInStoc = magazin.VerificareStocTelefon(telefon);
+            if (telefonInStoc == true)
+            {
+                this.casaDeMarcat.Incasare(telefon.GetPret());
+                telefon.SchimbaParola(telefon.GetParola(), string.Empty);
+                int index = magazin.GetIndexTelefon(telefon);
+                this.listaTelefoane.RemoveAt(index);
+                Console.WriteLine($"Ati vandut un telefon {telefon.GetProducator()} {telefon.GetModel()}.");
+            }
+            else
+            {
+                Console.WriteLine("Telefonul cautat nu este in stoc");
+            }
+        }
+
         /// <summary>
         /// Ofera optiunea de a selecta tipul de telefon si 
         /// returneaza tipul de telefon selectat.

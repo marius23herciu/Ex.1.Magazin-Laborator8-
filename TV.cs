@@ -18,7 +18,6 @@ namespace Ex._1.Magazin_Laborator8_
         private bool pornit = false;
         private PosturiTV post;
 
-
         enum PosturiTV
         {
             Stiri, Muzica, Cultural, Cartoon
@@ -33,8 +32,6 @@ namespace Ex._1.Magazin_Laborator8_
             this.producator = producator;
             this.model = model;
         }
-
-
 
         /// <summary>
         /// Porneste TV.
