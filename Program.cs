@@ -90,15 +90,57 @@ namespace Ex._1.Magazin_Laborator8_
             magazin.AdaugareTV(tvLG30);
             magazin.AdaugareTV(tvSamsungSA55);
 
+            /////////Meniu adaugare in stoc////////////////////////
 
+            Console.WriteLine("Adaugati bec(1), TV(2) sau telefon(3)?\n" +
+                    "Tastati numarul corespunzator produsului dorit:");
+            int raspuns = int.Parse(Console.ReadLine());
+            while (raspuns < 1 || raspuns > 3)
+            {
+                Console.WriteLine("Input gresit!");
+                raspuns = int.Parse(Console.ReadLine());
+            }
+            switch (raspuns)
+            {
+                case 1:
+                    Console.WriteLine("Cate becuri doriti sa adugati?");
+                    raspuns = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < raspuns; i++)
+                    {
+                        Bec bec1 = new Bec();
+                        magazin.AdaugareBec(bec1);
+                    }
+                    break;
+                case 2:
+                    TV tv = AlegereTipTV(magazin);
+                    Console.WriteLine($"Cate televizoare {tv.GetProducator()} {tv.GetModel()} doriti sa adaugati?");
+                    raspuns = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < raspuns; i++)
+                    {
+                        magazin.AdaugareTV(tv);
+                    }
+                    break;
+                default:
+                    Telefon telefon = AlegereTipTelefon(magazin);
+                    Console.WriteLine($"Cate telefoane {telefon.GetProducator()} {telefon.GetModel()} doriti sa adaugati?");
+                    raspuns = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < raspuns; i++)
+                    {
+                        magazin.AdaugareTelefon(telefon);
+                    }
+                    break;
+            }
+            ///////////////////////////////////////////////////////
 
             magazin.ClientIntra();
 
             magazin.SchimbareParolaMagazin("0000", "9999");
 
+            //////////Meniu Vanzari/////////////////////////////////
+
             Console.WriteLine("Vindeti bec(1), TV(2) sau telefon(3)?\n" +
                     "Tastati numarul corespunzator produsului dorit:");
-            int raspuns = int.Parse(Console.ReadLine());
+            raspuns = int.Parse(Console.ReadLine());
             while (raspuns < 1 || raspuns > 3)
             {
                 Console.WriteLine("Input gresit!");
@@ -110,12 +152,16 @@ namespace Ex._1.Magazin_Laborator8_
                     VanzareBecuriMain(magazin);
                     break;
                 case 2:
-                    VanzareTVMain(magazin);
+                    TV tv = AlegereTipTV(magazin);
+                    magazin.VanzareTV(magazin, tv);
                     break;
                 default:
-                    VanzareTelefonMain(magazin);
+                    Telefon telefon = AlegereTipTelefon(magazin);
+                    magazin.VanzareTelefon(magazin, telefon);
                     break;
             }
+
+            /////////////////////////////////////////////////////////////
 
             magazin.ClientIese();
         }
@@ -145,7 +191,7 @@ namespace Ex._1.Magazin_Laborator8_
             }
             magazin.VanzareBecuri(magazin, becuri);
         }
-        public static void VanzareTVMain(Magazin magazin)
+        public static TV AlegereTipTV(Magazin magazin)
         {
             Console.WriteLine("Alegeti din urmatoarele modele\n" +
                 "Samsung SA55(1)\n" +
@@ -177,9 +223,9 @@ namespace Ex._1.Magazin_Laborator8_
             {
                 tv = new TV(ProducatorTV.Philips, ModelTV.PH35);
             }
-            magazin.VanzareTV(magazin, tv);
+            return tv;
         }
-        public static void VanzareTelefonMain(Magazin magazin)
+        public static Telefon AlegereTipTelefon(Magazin magazin)
         {
             Console.WriteLine("Alegeti din urmatoarele modele\n" +
                "Samsung S10(1)\n" +
@@ -211,7 +257,7 @@ namespace Ex._1.Magazin_Laborator8_
             {
                 telefon = new Telefon(ProducatorTelefon.Nokia, ModelTelefon.n3310);
             }
-            magazin.VanzareTelefon(magazin, telefon);
+            return telefon;
         }
     }
 }
