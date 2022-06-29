@@ -112,7 +112,7 @@ namespace Ex._1.Magazin_Laborator8_
                     }
                     break;
                 case 2:
-                    TV tv = AlegereTipTV(magazin);
+                    TV tv = AlegereTipTV();
                     Console.WriteLine($"Cate televizoare {tv.GetProducator()} {tv.GetModel()} doriti sa adaugati?");
                     raspuns = int.Parse(Console.ReadLine());
                     for (int i = 0; i < raspuns; i++)
@@ -121,7 +121,7 @@ namespace Ex._1.Magazin_Laborator8_
                     }
                     break;
                 default:
-                    Telefon telefon = AlegereTipTelefon(magazin);
+                    Telefon telefon = AlegereTipTelefon();
                     Console.WriteLine($"Cate telefoane {telefon.GetProducator()} {telefon.GetModel()} doriti sa adaugati?");
                     raspuns = int.Parse(Console.ReadLine());
                     for (int i = 0; i < raspuns; i++)
@@ -152,11 +152,11 @@ namespace Ex._1.Magazin_Laborator8_
                     VanzareBecuriMain(magazin);
                     break;
                 case 2:
-                    TV tv = AlegereTipTV(magazin);
+                    TV tv = AlegereTipTV();
                     magazin.VanzareTV(magazin, tv);
                     break;
                 default:
-                    Telefon telefon = AlegereTipTelefon(magazin);
+                    Telefon telefon = AlegereTipTelefon();
                     magazin.VanzareTelefon(magazin, telefon);
                     break;
             }
@@ -191,7 +191,7 @@ namespace Ex._1.Magazin_Laborator8_
             }
             magazin.VanzareBecuri(magazin, becuri);
         }
-        public static TV AlegereTipTV(Magazin magazin)
+        public static TV AlegereTipTV()
         {
             Console.WriteLine("Alegeti din urmatoarele modele\n" +
                 "Samsung SA55(1)\n" +
@@ -225,7 +225,7 @@ namespace Ex._1.Magazin_Laborator8_
             }
             return tv;
         }
-        public static Telefon AlegereTipTelefon(Magazin magazin)
+        public static Telefon AlegereTipTelefon()
         {
             Console.WriteLine("Alegeti din urmatoarele modele\n" +
                "Samsung S10(1)\n" +
